@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -20,6 +21,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import home.go.rym.async.LoginTask;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
         instance = this;
         initUI();
         init();
+        new LoginTask(this).execute();
     }
 
     private void init() {
@@ -103,7 +106,23 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.rescan) {
+            new MaterialDialog.Builder(this)
+                    .content("This deletes all entries of your collection. Do you want to proceed?")
+                    .positiveText(android.R.string.yes)
+                    .negativeText(android.R.string.no)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override public void onPositive(MaterialDialog dialog) {
+                            Crouton.makeText(instance, "rescan", Style.ALERT).show();
+                            super.onPositive(dialog);
+                        }
+
+                        @Override public void onNegative(MaterialDialog dialog) {
+                            super.onNegative(dialog);
+                        }
+                    })
+                    .show();
+
             return true;
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="home.go.rym" >
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".RymApplication"
         android:allowBackup="true"
