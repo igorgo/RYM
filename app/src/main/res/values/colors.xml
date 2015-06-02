@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#EF6C00</color>
+    <color name="colorAccent">#F44336</color>
+    <color name="gray_bg">#e2e2e2</color>
+    <color name="navigation_bg">#ffffffff</color>
+    <color name="kitkat_gray_light">#19000000</color>
+</resources>
