@@ -3,8 +3,8 @@ package home.go.rym.utils;
 public interface Constants {
     String PACKAGE = "home.go.rym";
     String PREFS_NAME = PACKAGE + "_preferences";;
-    CharSequence PREF_USERNAME = "username";
-    CharSequence PREF_PASSWORD = "password";
+    String PREF_USERNAME = "username";
+    String PREF_PASSWORD = "password";
 
     String HOST = "rateyourmusic.com";
     String URL_LOGIN = HOST + "/account/login";

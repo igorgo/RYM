@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/activity_vertical_margin"
+             android:gravity="center_vertical|center_horizontal"
+             android:orientation="vertical">
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:id="@+id/labelUser"
+            android:layout_column="0"/>
+
+        <EditText
+            android:id="@+id/username_request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_column="1">
+            <requestFocus/>
+        </EditText>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:id="@+id/labelPass"
+            android:layout_column="0"/>
+        <EditText
+            android:id="@+id/password_request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:layout_weight="1"
+            android:layout_column="1"/>
+    </TableRow>
+    <TableRow>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_password"
+            android:id="@+id/save_pass_checkBox"
+            android:layout_span="2"
+            android:layout_column="0"
+            android:layout_weight="1"/>
+    </TableRow>
+
+</TableLayout>

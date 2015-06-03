@@ -7,7 +7,7 @@ import com.activeandroid.annotation.Table;
 
 
 @Table(name = "Releases")
-public class Release  extends Model {
+public class Release extends Model {
 
     @Column(name = "Artist", index = true)
     public Artist artist;

@@ -25,6 +25,6 @@
 
     <meta-data
         android:name="AA_MODELS"
-        android:value="home.go.rym.orm.Release, home.go.rym.orm.Artist, home.go.rym.orm.Collection" />
+        android:value="home.go.rym.orm.Release, home.go.rym.orm.Artist, home.go.rym.orm.Collection, home.go.rym.orm.RymUser" />
 
 </manifest>
