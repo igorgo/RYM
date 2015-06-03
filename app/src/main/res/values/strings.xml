@@ -9,9 +9,6 @@
     <string name="drawer_item_collection">Collection</string>
     <string name="friends">Friends</string>
     <string name="recommendations">Recommendations</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="account">Account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -19,4 +16,6 @@
     <string name="login">Login</string>
     <string name="user">User</string>
     <string name="save_password">Save password</string>
+    <string name="authentification">authentification…</string>
+    <string name="querying_page_count">Querying pageCount\' count…</string>
 </resources>

@@ -2,11 +2,10 @@ package home.go.rym.async;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 
+import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.IOException;
@@ -17,17 +16,19 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import home.go.rym.R;
 import home.go.rym.RymApplication;
+import home.go.rym.orm.RymUser;
 import home.go.rym.utils.Constants;
 
 public class LoginTask extends AsyncTask<Void, Void, Void> {
 
     private final Activity activity;
-    private SharedPreferences prefs;
     private Map<String,String> cookies = new HashMap<>();
     private MaterialDialog dialog;
     private String username;
@@ -38,7 +39,6 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         this.activity = activity;
         this.username = username;
         this.password = password;
-        this.prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }
 
     private void login() {
@@ -63,6 +63,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
                         .HOST))) {
                     cookies.put(cookie.getName(),cookie.getValue());
                 }
+                setSelfUser();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +72,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 
     @Override protected void onPreExecute() {
         dialog = new MaterialDialog.Builder(activity)
-        .content("authentification…")
+        .content(activity.getString(R.string.authentification))
         .progress(true,0)
         .show();
         super.onPreExecute();
@@ -86,7 +87,38 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
     @Override protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         ((RymApplication)  activity.getApplication()).setCookies(cookies);
-
         dialog.dismiss();
     }
+
+    private void setSelfUser() {
+        String username = cookies.get("username");
+        if (username != null) {
+            List<RymUser> users = new Select()
+                    .from(RymUser.class)
+                    .where("Name = ?",username)
+                    .execute();
+
+            if (users.size() == 0) {
+                RymUser user = new RymUser();
+                user.name = username;
+                user.self=1;
+                user.friend = 0;
+                user.favorite =0;
+                user.save();
+            } else {
+                RymUser user = users.get(0);
+                if (user.self != 1) {
+                    new Update(RymUser.class)
+                            .set("Self=0, Favorite=1")
+                            .where("Self=1")
+                            .execute();
+                    user.self=1;
+                    user.friend = 0;
+                    user.favorite =0;
+                    user.save();
+                }
+            }
+        }
+    }
+
 }

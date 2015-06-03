@@ -30,8 +30,9 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import home.go.rym.async.GetPageCountTask;
 import home.go.rym.async.LoginTask;
+import home.go.rym.async.ScanCollectionTask;
 import home.go.rym.utils.Constants;
-import home.go.rym.utils.RymUrl;
+import home.go.rym.utils.RymUtils;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -83,7 +84,6 @@ public class MainActivity extends ActionBarActivity {
                                 if (savePassCheckBox.isChecked()) {
                                     prefs.edit().putString(Constants.PREF_PASSWORD, password).commit();
                                 }
-                                //todo: set selfuser in table Users
                                 super.onPositive(dialog);
                                 dialog.dismiss();
                                 new LoginTask(instance, username, password).execute();
@@ -105,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
         mFragmentManager = getSupportFragmentManager();
         if (mFragmentManager.findFragmentByTag(FRAGMENT_MAIN_TAG) == null) {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fragment_container, new MainActivityFragment(), FRAGMENT_MAIN_TAG).commit();
+            fragmentTransaction.add(R.id.fragment_container, new CollectionFragment(), FRAGMENT_MAIN_TAG).commit();
         }
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
                             if (mFragmentManager.findFragmentByTag(FRAGMENT_MAIN_TAG) == null) {
                                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                                 fragmentTransaction
-                                        .add(R.id.fragment_container, new MainActivityFragment(), FRAGMENT_MAIN_TAG)
+                                        .add(R.id.fragment_container, new CollectionFragment(), FRAGMENT_MAIN_TAG)
                                         .commit();
                             }
                         }
@@ -175,22 +175,20 @@ public class MainActivity extends ActionBarActivity {
                     .negativeText(android.R.string.no)
                     .callback(new MaterialDialog.ButtonCallback() {
                         @Override public void onPositive(MaterialDialog dialog) {
-                            Crouton.makeText(instance, "rescan", Style.ALERT).show();
-
                             new GetPageCountTask(
                                     instance,
-                                    RymUrl.recent(prefs.getString(Constants.PREF_USERNAME, "")),
+                                    RymUtils.buildRecentUrl(prefs.getString(Constants.PREF_USERNAME, "")),
                                     new GetPageCountTask.OnGetPageCountTask() {
                                         @Override
                                         public void OnGetPageCountTask(int pages) {
                                             Crouton.makeText(instance, String.valueOf(pages), Style.INFO, croutonPlace)
                                                    .show();
+                                            new ScanCollectionTask(instance,null,pages,true).execute();
                                         }
                                     }
                             ).execute();
                             super.onPositive(dialog);
                         }
-
                         @Override public void onNegative(MaterialDialog dialog) {
                             super.onNegative(dialog);
                         }

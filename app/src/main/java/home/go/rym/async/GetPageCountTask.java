@@ -1,13 +1,10 @@
 package home.go.rym.async;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,11 +12,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
+import home.go.rym.R;
 import home.go.rym.RymApplication;
-import home.go.rym.utils.Constants;
 
 /**
  * It's a part of project RYM
@@ -55,10 +50,7 @@ public class GetPageCountTask extends AsyncTask<Void, Void, Void> {
                     int itxt = Integer.parseInt(txt);
                     pageCount = (itxt>pageCount) ? itxt : pageCount;
                 }
-                Logger.d("Element data:%s", page.text());
             }
-            Logger.d("pages:%s",pageCount);
-            //Ln.d("pages:%s",pages);
             return pageCount;
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,9 +64,18 @@ public class GetPageCountTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    @Override protected void onPreExecute() {
+        dialog = new MaterialDialog.Builder(activity)
+                .content(R.string.querying_page_count)
+                .progress(true, 0)
+                .show();
+        super.onPreExecute();
+    }
+
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (listener != null) {
             listener.OnGetPageCountTask(pageCount);
         }
@@ -83,5 +84,6 @@ public class GetPageCountTask extends AsyncTask<Void, Void, Void> {
     public interface OnGetPageCountTask {
         void OnGetPageCountTask(int pages);
     }
+
 }
 

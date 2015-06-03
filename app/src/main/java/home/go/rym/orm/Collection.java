@@ -9,11 +9,11 @@ import java.util.Date;
 @Table(name = "Collection")
 public class Collection   extends Model {
 
-    @Column(name = "User")
+    @Column(name = "User", index = true)
     public RymUser user;
 
     @Column(name = "Date")
-    public Date entryDate;
+    public String entryDate;
 
     @Column(name = "Release", index = true)
     public Release release;
@@ -21,6 +21,5 @@ public class Collection   extends Model {
     @Column(name = "Rate")
     public int rate;
 
-
-
 }
+

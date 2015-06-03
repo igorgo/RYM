@@ -13,7 +13,7 @@ public class Release extends Model {
     public Artist artist;
 
     @Column(name = "Type")
-    public ReleaseType type;
+    public int type;
 
     @Column(name = "Name")
     public String name;
@@ -26,3 +26,4 @@ public class Release extends Model {
 
 
 }
+
