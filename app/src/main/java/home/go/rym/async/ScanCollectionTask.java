@@ -64,7 +64,7 @@ public class ScanCollectionTask extends AsyncTask<Void, Integer, Void> {
     @Override protected void onPreExecute() {
         super.onPreExecute();
         dialog = new MaterialDialog.Builder(activity)
-                .content(activity.getString(R.string.querying_page_count))
+                .content(activity.getString(R.string.scanning_collection))
                 .progress(false,pageCount,true)
                 .show();
     }
@@ -160,7 +160,7 @@ public class ScanCollectionTask extends AsyncTask<Void, Integer, Void> {
             try {
                 release.year = Integer.parseInt(row.select("span.smallgray").text().substring(1,5));
             } catch (Exception e) {
-                release.year = Integer.parseInt(null);
+                e.printStackTrace();
             }
             release.save();
         }

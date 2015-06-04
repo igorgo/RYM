@@ -17,5 +17,6 @@
     <string name="user">User</string>
     <string name="save_password">Save password</string>
     <string name="authentification">authentification…</string>
-    <string name="querying_page_count">Querying pageCount\' count…</string>
+    <string name="querying_page_count">Querying pages\' count…</string>
+    <string name="scanning_collection">Scanning collection…</string>
 </resources>
